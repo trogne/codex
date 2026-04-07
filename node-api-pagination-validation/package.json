@@ -1,0 +1,15 @@
+{
+  "name": "node-api-pagination-validation",
+  "version": "1.0.0",
+  "description": "Simple Node.js API with request validation and pagination",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "zod": "^3.25.8"
+  }
+}
