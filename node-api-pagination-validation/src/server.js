@@ -10,12 +10,12 @@ const complimentTimes = (process.env.COMPLIMENT_TIMES || '09:00,18:00')
   .filter(Boolean);
 
 const complimentTemplates = [
-  '{name}, you are a magnificent little cloud of joy.',
-  '{name}, your whiskers are pure elegance.',
-  '{name}, you make the whole home brighter.',
-  '{name}, you are brave, clever, and adorable.',
-  '{name}, your purr is top-tier healing magic.',
-  '{name}, you are a superstar and you know it.'
+  '{name}, tu es un merveilleux petit nuage de bonheur.',
+  "{name}, tes moustaches sont d'une élégance absolue.",
+  '{name}, tu illumines toute la maison.',
+  '{name}, tu es courageux, malin et adorable.',
+  '{name}, ton ronronnement est une vraie magie apaisante.',
+  '{name}, tu es une superstar et tu le sais.'
 ];
 
 app.use(express.json());

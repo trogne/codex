@@ -1,10 +1,10 @@
 # Cat Compliment App
 
-A simple Node.js app that compliments your cats **Romaine**, **Vianney**, and **Ratoune** twice a day.
+A simple Node.js app that compliments your cats **Romaine**, **Vianney**, and **Ratoune** twice a day, in French.
 
 ## Features
 
-- Automatically generates compliments on a schedule (default: `09:00` and `18:00` server time).
+- Automatically generates French compliments on a schedule (default: `09:00` and `18:00` server time).
 - Displays latest compliments in a small web UI.
 - Lets you trigger compliments instantly with a button.
 - Exposes a JSON API for health checks, compliments, and schedule details.

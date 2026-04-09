@@ -52,7 +52,7 @@
     <button id="sendNow">Send compliments now</button>
 
     <div class="card">
-      <h2>Latest compliments</h2>
+      <h2>Derniers compliments</h2>
       <p id="generatedAt" class="muted">Loading...</p>
       <ul id="complimentList"></ul>
     </div>
@@ -69,7 +69,7 @@
       const sendNowButton = document.getElementById('sendNow');
 
       const renderCompliments = (payload) => {
-        generatedAt.textContent = `Generated at: ${new Date(payload.generatedAt).toLocaleString()}`;
+        generatedAt.textContent = `Généré à : ${new Date(payload.generatedAt).toLocaleString()}`;
         complimentList.innerHTML = '';
 
         payload.compliments.forEach((entry) => {
