@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cat Compliment App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 760px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.5;
+      }
+      h1 {
+        margin-bottom: 0.5rem;
+      }
+      button {
+        border: none;
+        background: #5b5de6;
+        color: white;
+        padding: 0.7rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      button:hover {
+        background: #4648bf;
+      }
+      .muted {
+        color: #555;
+      }
+      ul {
+        padding-left: 1.2rem;
+      }
+      li {
+        margin: 0.35rem 0;
+      }
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-top: 1rem;
+        background: #fafafa;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🐱 Cat Compliment App</h1>
+    <p class="muted">Compliments Romaine, Vianney, and Ratoune twice a day.</p>
+
+    <button id="sendNow">Send compliments now</button>
+
+    <div class="card">
+      <h2>Latest compliments</h2>
+      <p id="generatedAt" class="muted">Loading...</p>
+      <ul id="complimentList"></ul>
+    </div>
+
+    <div class="card">
+      <h2>Schedule</h2>
+      <ul id="scheduleList"></ul>
+    </div>
+
+    <script>
+      const complimentList = document.getElementById('complimentList');
+      const generatedAt = document.getElementById('generatedAt');
+      const scheduleList = document.getElementById('scheduleList');
+      const sendNowButton = document.getElementById('sendNow');
+
+      const renderCompliments = (payload) => {
+        generatedAt.textContent = `Generated at: ${new Date(payload.generatedAt).toLocaleString()}`;
+        complimentList.innerHTML = '';
+
+        payload.compliments.forEach((entry) => {
+          const li = document.createElement('li');
+          li.textContent = `${entry.name}: ${entry.message}`;
+          complimentList.appendChild(li);
+        });
+      };
+
+      const loadCompliments = async () => {
+        const response = await fetch('/api/compliments');
+        const payload = await response.json();
+        renderCompliments(payload);
+      };
+
+      const loadSchedule = async () => {
+        const response = await fetch('/api/schedule');
+        const payload = await response.json();
+
+        scheduleList.innerHTML = '';
+
+        payload.upcomingRuns.forEach((run) => {
+          const li = document.createElement('li');
+          li.textContent = `${run.time} → next run at ${new Date(run.nextRun).toLocaleString()}`;
+          scheduleList.appendChild(li);
+        });
+      };
+
+      sendNowButton.addEventListener('click', async () => {
+        const response = await fetch('/api/compliments/send-now', { method: 'POST' });
+        const payload = await response.json();
+        renderCompliments(payload);
+      });
+
+      loadCompliments();
+      loadSchedule();
+    </script>
+  </body>
+</html>
