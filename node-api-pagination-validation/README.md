@@ -26,28 +26,73 @@ You can change schedule times via `COMPLIMENT_TIMES` (24-hour format):
 COMPLIMENT_TIMES=08:00,20:00 npm start
 ```
 
+## Publish online (step-by-step)
 
-## Deploy online
+If you want everyone to use your app, the fastest path is **Render**.
 
-### Option 1: Render (recommended)
+### 1) Push your code to GitHub
 
-This repo now includes `render.yaml`, so you can deploy quickly:
+From your project root:
 
-1. Push this repository to GitHub.
-2. In Render, choose **New +** → **Blueprint** and select your repo.
-3. Render will pick up `render.yaml` at the repository root.
-4. After deploy, your app will be live at a Render URL, with health checks on `/api/health`.
+```bash
+git add .
+git commit -m "Prepare app for production"
+git push origin <your-branch>
+```
 
-### Option 2: Any Docker host
+Then merge to your main branch so Render can deploy it.
+
+### 2) Create a Render account
+
+- Go to <https://render.com/> and sign up.
+- Connect your GitHub account.
+
+### 3) Deploy with Blueprint
+
+This repository already includes `render.yaml` at the root.
+
+- In Render dashboard, click **New +**.
+- Choose **Blueprint**.
+- Select your GitHub repo.
+- Confirm deploy.
+
+Render will automatically:
+- build in `node-api-pagination-validation`
+- run `npm ci`
+- start with `npm start`
+- monitor `GET /api/health`
+
+### 4) Verify it is live
+
+After deployment, open your Render URL (for example `https://cat-compliment-app.onrender.com`).
+
+Check:
+- `/` shows the UI
+- `/api/health` returns `{"status":"ok"}`
+- `/api/compliments` returns French compliments
+
+### 5) Share with everyone
+
+- Send people the Render URL.
+- Optional: add a custom domain in Render (**Settings → Custom Domains**) so it is easier to remember.
+
+### 6) Keep it always available
+
+- Use at least a paid Render plan if you want to avoid free-tier sleeping.
+- Enable Render notifications for failed deploys.
+- Keep your GitHub repo connected so every push can auto-deploy.
+
+## Optional: publish with Docker on another host
 
 A production Dockerfile is included at `node-api-pagination-validation/Dockerfile`.
 
 ```bash
+cd node-api-pagination-validation
 docker build -t cat-compliment-app .
 docker run -p 3000:3000 -e COMPLIMENT_TIMES=09:00,18:00 cat-compliment-app
 ```
 
-Then expose the container through your hosting provider (Fly.io, Railway, DigitalOcean, etc.).
+Then deploy that image to Fly.io, Railway, DigitalOcean, AWS, or any container platform.
 
 ## API
 
