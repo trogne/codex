@@ -1,123 +1,138 @@
 import express from 'express';
-import { z } from 'zod';
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 
+const cats = ['Romaine', 'Vianney', 'Ratoune'];
+const complimentTimes = (process.env.COMPLIMENT_TIMES || '09:00,18:00')
+  .split(',')
+  .map((entry) => entry.trim())
+  .filter(Boolean);
+
+const complimentTemplates = [
+  '{name}, you are a magnificent little cloud of joy.',
+  '{name}, your whiskers are pure elegance.',
+  '{name}, you make the whole home brighter.',
+  '{name}, you are brave, clever, and adorable.',
+  '{name}, your purr is top-tier healing magic.',
+  '{name}, you are a superstar and you know it.'
+];
+
 app.use(express.json());
+app.use(express.static('public'));
 
-let items = Array.from({ length: 100 }, (_, index) => ({
-  id: index + 1,
-  name: `Item ${index + 1}`,
-  category: index % 2 === 0 ? 'even' : 'odd',
-  createdAt: new Date(Date.now() - index * 60_000).toISOString()
-}));
+const pickRandom = (list) => list[Math.floor(Math.random() * list.length)];
 
-const listQuerySchema = z.object({
-  page: z.coerce.number().int().positive().default(1),
-  limit: z.coerce.number().int().positive().max(50).default(10),
-  search: z.string().trim().min(1).max(100).optional(),
-  category: z.enum(['even', 'odd']).optional(),
-  sortBy: z.enum(['id', 'name', 'createdAt']).default('id'),
-  sortOrder: z.enum(['asc', 'desc']).default('asc')
-});
+const buildComplimentBatch = () => {
+  const generatedAt = new Date().toISOString();
 
-const createItemSchema = z.object({
-  name: z.string().trim().min(2).max(100),
-  category: z.enum(['even', 'odd'])
-});
+  return {
+    generatedAt,
+    compliments: cats.map((name) => ({
+      name,
+      message: pickRandom(complimentTemplates).replace('{name}', name)
+    }))
+  };
+};
 
-const parseOrSendError = (schema, input, res) => {
-  const parsed = schema.safeParse(input);
+const parseTime = (timeString) => {
+  const [hourText, minuteText] = timeString.split(':');
+  const hour = Number(hourText);
+  const minute = Number(minuteText);
 
-  if (!parsed.success) {
-    res.status(400).json({
-      message: 'Validation failed',
-      errors: parsed.error.flatten().fieldErrors
-    });
+  if (
+    Number.isNaN(hour) ||
+    Number.isNaN(minute) ||
+    hour < 0 ||
+    hour > 23 ||
+    minute < 0 ||
+    minute > 59
+  ) {
     return null;
   }
 
-  return parsed.data;
+  return { hour, minute };
 };
 
-app.get('/health', (_req, res) => {
+const getNextOccurrence = (timeString, now = new Date()) => {
+  const parsed = parseTime(timeString);
+  if (!parsed) return null;
+
+  const scheduled = new Date(now);
+  scheduled.setHours(parsed.hour, parsed.minute, 0, 0);
+
+  if (scheduled <= now) {
+    scheduled.setDate(scheduled.getDate() + 1);
+  }
+
+  return scheduled;
+};
+
+let latestBatch = buildComplimentBatch();
+
+const runComplimentsNow = () => {
+  latestBatch = buildComplimentBatch();
+
+  latestBatch.compliments.forEach(({ name, message }) => {
+    console.log(`[${latestBatch.generatedAt}] ${name}: ${message}`);
+  });
+
+  return latestBatch;
+};
+
+const scheduleCompliments = () => {
+  complimentTimes.forEach((timeString) => {
+    const armNextTimer = () => {
+      const nextOccurrence = getNextOccurrence(timeString);
+
+      if (!nextOccurrence) {
+        console.warn(`Skipping invalid COMPLIMENT_TIMES entry: ${timeString}`);
+        return;
+      }
+
+      const delay = nextOccurrence.getTime() - Date.now();
+
+      setTimeout(() => {
+        runComplimentsNow();
+        armNextTimer();
+      }, delay);
+    };
+
+    armNextTimer();
+  });
+};
+
+app.get('/api/health', (_req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-app.get('/items', (req, res) => {
-  const query = parseOrSendError(listQuerySchema, req.query, res);
-  if (!query) return;
-
-  const { page, limit, search, category, sortBy, sortOrder } = query;
-
-  let result = [...items];
-
-  if (search) {
-    const needle = search.toLowerCase();
-    result = result.filter((item) => item.name.toLowerCase().includes(needle));
-  }
-
-  if (category) {
-    result = result.filter((item) => item.category === category);
-  }
-
-  result.sort((a, b) => {
-    const left = a[sortBy];
-    const right = b[sortBy];
-
-    if (left < right) return sortOrder === 'asc' ? -1 : 1;
-    if (left > right) return sortOrder === 'asc' ? 1 : -1;
-    return 0;
-  });
-
-  const totalItems = result.length;
-  const totalPages = Math.max(1, Math.ceil(totalItems / limit));
-
-  if (page > totalPages) {
-    return res.status(400).json({
-      message: `Page ${page} is out of range. Maximum page is ${totalPages}.`
-    });
-  }
-
-  const startIndex = (page - 1) * limit;
-  const data = result.slice(startIndex, startIndex + limit);
-
-  return res.status(200).json({
-    data,
-    pagination: {
-      page,
-      limit,
-      totalItems,
-      totalPages,
-      hasNextPage: page < totalPages,
-      hasPreviousPage: page > 1
-    }
-  });
+app.get('/api/compliments', (_req, res) => {
+  res.status(200).json(latestBatch);
 });
 
-app.post('/items', (req, res) => {
-  const payload = parseOrSendError(createItemSchema, req.body, res);
-  if (!payload) return;
-
-  const nextId = items.length ? Math.max(...items.map((item) => item.id)) + 1 : 1;
-
-  const newItem = {
-    id: nextId,
-    name: payload.name,
-    category: payload.category,
-    createdAt: new Date().toISOString()
-  };
-
-  items = [newItem, ...items];
-
-  return res.status(201).json({ data: newItem });
+app.post('/api/compliments/send-now', (_req, res) => {
+  const batch = runComplimentsNow();
+  res.status(200).json(batch);
 });
 
-app.use((req, res) => {
-  res.status(404).json({ message: `Route ${req.method} ${req.path} not found` });
+app.get('/api/schedule', (_req, res) => {
+  const now = new Date();
+  const upcomingRuns = complimentTimes
+    .map((timeString) => ({
+      time: timeString,
+      nextRun: getNextOccurrence(timeString, now)?.toISOString() ?? null
+    }))
+    .filter(({ nextRun }) => nextRun !== null);
+
+  res.status(200).json({
+    cats,
+    complimentTimes,
+    upcomingRuns
+  });
 });
 
 app.listen(port, () => {
-  console.log(`API server running on port ${port}`);
+  scheduleCompliments();
+  console.log(`Cat compliment app running on port ${port}`);
+  console.log(`Compliments scheduled at: ${complimentTimes.join(', ')}`);
 });
