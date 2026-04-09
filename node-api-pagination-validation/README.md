@@ -26,6 +26,29 @@ You can change schedule times via `COMPLIMENT_TIMES` (24-hour format):
 COMPLIMENT_TIMES=08:00,20:00 npm start
 ```
 
+
+## Deploy online
+
+### Option 1: Render (recommended)
+
+This repo now includes `render.yaml`, so you can deploy quickly:
+
+1. Push this repository to GitHub.
+2. In Render, choose **New +** → **Blueprint** and select your repo.
+3. Render will pick up `render.yaml` at the repository root.
+4. After deploy, your app will be live at a Render URL, with health checks on `/api/health`.
+
+### Option 2: Any Docker host
+
+A production Dockerfile is included at `node-api-pagination-validation/Dockerfile`.
+
+```bash
+docker build -t cat-compliment-app .
+docker run -p 3000:3000 -e COMPLIMENT_TIMES=09:00,18:00 cat-compliment-app
+```
+
+Then expose the container through your hosting provider (Fly.io, Railway, DigitalOcean, etc.).
+
 ## API
 
 - `GET /api/health` → app status

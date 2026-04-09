@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: cat-compliment-app
+    env: node
+    rootDir: node-api-pagination-validation
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: COMPLIMENT_TIMES
+        value: 09:00,18:00
