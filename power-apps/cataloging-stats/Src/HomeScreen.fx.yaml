@@ -118,7 +118,6 @@ HomeScreen:
             Refresh(CatalogageStats)
           OnFailure: =Notify("Impossible d'enregistrer la ligne", NotificationType.Error)
         Fields:
-          - Title
           - Date
           - Nouveaut_x00e9_strait_x00e9_es_x
           - Nouveaut_x00e9_strait_x00e9_es_x0
@@ -166,31 +165,21 @@ HomeScreen:
           Items: =SortByColumns(CatalogageStats, "Date", SortOrder.Descending)
           TemplateSize: =96
         Children:
-          - RecentTitle:
+          - RecentDate:
               Control: Label
               Properties:
                 X: =16
                 Y: =10
                 Width: =Parent.TemplateWidth - 32
                 Height: =24
-                Text: =Coalesce(ThisItem.Title, "Sans titre")
+                Text: =Text(ThisItem.Date, "[$-fr-FR]dddd d mmmm yyyy")
                 FontWeight: =FontWeight.Semibold
                 Color: =ColorValue("#242424")
-          - RecentDate:
-              Control: Label
-              Properties:
-                X: =16
-                Y: =34
-                Width: =Parent.TemplateWidth - 32
-                Height: =22
-                Text: =Text(ThisItem.Date, "[$-fr-FR]dddd d mmmm yyyy")
-                Color: =ColorValue("#616161")
-                Size: =11
           - RecentTotals:
               Control: Label
               Properties:
                 X: =16
-                Y: =58
+                Y: =42
                 Width: =Parent.TemplateWidth - 32
                 Height: =30
                 Text: |-
