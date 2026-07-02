@@ -1,0 +1,201 @@
+HomeScreen:
+  Properties:
+    Fill: =ColorValue("#F7F2F8")
+    OnVisible: =Refresh(CatalogageStats)
+  Controls:
+    - HeaderContainer:
+        Control: GroupContainer
+        Variant: ManualLayout
+        Properties:
+          X: =0
+          Y: =0
+          Width: =Parent.Width
+          Height: =92
+          Fill: =varPrimaryColor
+        Children:
+          - AppTitleLabel:
+              Control: Label
+              Properties:
+                X: =32
+                Y: =18
+                Width: =760
+                Height: =36
+                Text: =varAppTitle
+                Color: =Color.White
+                Size: =22
+                FontWeight: =FontWeight.Semibold
+          - AppSubtitleLabel:
+              Control: Label
+              Properties:
+                X: =32
+                Y: =54
+                Width: =760
+                Height: =24
+                Text: ="Saisie connectée à la liste SharePoint CatalogageStats"
+                Color: =RGBA(255,255,255,0.85)
+                Size: =12
+          - RefreshButton:
+              Control: Button
+              Properties:
+                X: =Parent.Width - 172
+                Y: =24
+                Width: =140
+                Height: =44
+                Text: ="Actualiser"
+                Fill: =Color.White
+                Color: =varPrimaryColor
+                OnSelect: =Refresh(CatalogageStats); Notify("Données actualisées", NotificationType.Success)
+
+    - KpiGallery:
+        Control: Gallery
+        Variant: Horizontal
+        Properties:
+          X: =24
+          Y: =112
+          Width: =Parent.Width - 48
+          Height: =120
+          TemplateSize: =(Self.Width - 36) / 4
+          Items: |-
+            =Table(
+              {Label:"Total nouveautés", Value: Sum(CatalogageStats, Coalesce('Nouveautés traitées - Exemplaires physique',0) + Coalesce('Nouveautés traitées - Documents numériques',0) + Coalesce('Nouveautés traitées - Dons',0))},
+              {Label:"Rétrospectifs physiques", Value: Sum(CatalogageStats, Coalesce('Rétrospectifs traités - Recatalogages',0) + Coalesce('Rétrospectifs traités - Corrections ou modifications',0) + Coalesce('Rétrospectifs traités - Exemplarisations',0))},
+              {Label:"Rétrospectifs numériques", Value: Sum(CatalogageStats, Coalesce('Rétrospectifs - Numériques - Recatalogages',0) + Coalesce('Rétrospectifs - Numériques - Corrections ou modifications',0))},
+              {Label:"Notices d'autorité", Value: Sum(CatalogageStats, Coalesce('Notices d''autorité crées ou modifiées',0))}
+            )
+        Children:
+          - KpiCard:
+              Control: GroupContainer
+              Variant: ManualLayout
+              Properties:
+                X: =0
+                Y: =0
+                Width: =Parent.TemplateWidth - 12
+                Height: =104
+                Fill: =Color.White
+                BorderColor: =ColorValue("#E4D7E7")
+                BorderThickness: =1
+                RadiusTopLeft: =16
+                RadiusTopRight: =16
+                RadiusBottomLeft: =16
+                RadiusBottomRight: =16
+              Children:
+                - KpiLabel:
+                    Control: Label
+                    Properties:
+                      X: =18
+                      Y: =16
+                      Width: =Parent.Width - 36
+                      Height: =24
+                      Text: =ThisItem.Label
+                      Color: =ColorValue("#616161")
+                      Size: =12
+                - KpiValue:
+                    Control: Label
+                    Properties:
+                      X: =18
+                      Y: =42
+                      Width: =Parent.Width - 36
+                      Height: =42
+                      Text: =Text(ThisItem.Value, "[$-fr-FR]#,##0")
+                      Color: =varPrimaryColor
+                      Size: =28
+                      FontWeight: =FontWeight.Bold
+
+    - EntryForm:
+        Control: Form
+        Variant: EditForm
+        Properties:
+          X: =24
+          Y: =252
+          Width: =(Parent.Width * 0.58) - 36
+          Height: =Parent.Height - 284
+          DataSource: =CatalogageStats
+          DefaultMode: =FormMode.New
+          NumberOfColumns: =2
+          OnSuccess: |-
+            =Notify("Ligne SharePoint enregistrée", NotificationType.Success);
+            NewForm(EntryForm);
+            Refresh(CatalogageStats)
+          OnFailure: =Notify("Impossible d'enregistrer la ligne", NotificationType.Error)
+        Fields:
+          - Title
+          - Date
+          - Nouveaut_x00e9_strait_x00e9_es_x
+          - Nouveaut_x00e9_strait_x00e9_es_x0
+          - Nouveaut_x00e9_strait_x00e9_es_x1
+          - R_x00e9_trospectifstrait_x00e9_s
+          - R_x00e9_trospectifstrait_x00e9_s0
+          - R_x00e9_trospectifstrait_x00e9_s1
+          - R_x00e9_trospectifs_x002d_Num_x0
+          - R_x00e9_trospectifs_x002d_Num_x00
+          - Noticesdautorit_x00e9_cr_x00e9_e
+
+    - SubmitButton:
+        Control: Button
+        Properties:
+          X: =24
+          Y: =Parent.Height - 64
+          Width: =180
+          Height: =44
+          Text: ="Enregistrer"
+          Fill: =varPrimaryColor
+          Color: =Color.White
+          OnSelect: =SubmitForm(EntryForm)
+
+    - NewButton:
+        Control: Button
+        Properties:
+          X: =220
+          Y: =Parent.Height - 64
+          Width: =160
+          Height: =44
+          Text: ="Nouvelle ligne"
+          Fill: =ColorValue("#EEE6F1")
+          Color: =varPrimaryColor
+          OnSelect: =NewForm(EntryForm)
+
+    - RecentItemsGallery:
+        Control: Gallery
+        Variant: Vertical
+        Properties:
+          X: =(Parent.Width * 0.58) + 12
+          Y: =252
+          Width: =(Parent.Width * 0.42) - 36
+          Height: =Parent.Height - 284
+          Fill: =Color.White
+          Items: =SortByColumns(CatalogageStats, "Date", SortOrder.Descending)
+          TemplateSize: =96
+        Children:
+          - RecentTitle:
+              Control: Label
+              Properties:
+                X: =16
+                Y: =10
+                Width: =Parent.TemplateWidth - 32
+                Height: =24
+                Text: =Coalesce(ThisItem.Title, "Sans titre")
+                FontWeight: =FontWeight.Semibold
+                Color: =ColorValue("#242424")
+          - RecentDate:
+              Control: Label
+              Properties:
+                X: =16
+                Y: =34
+                Width: =Parent.TemplateWidth - 32
+                Height: =22
+                Text: =Text(ThisItem.Date, "[$-fr-FR]dddd d mmmm yyyy")
+                Color: =ColorValue("#616161")
+                Size: =11
+          - RecentTotals:
+              Control: Label
+              Properties:
+                X: =16
+                Y: =58
+                Width: =Parent.TemplateWidth - 32
+                Height: =30
+                Text: |-
+                  ="Nouveautés: " & Text(Coalesce(ThisItem.'Nouveautés traitées - Exemplaires physique',0) + Coalesce(ThisItem.'Nouveautés traitées - Documents numériques',0) + Coalesce(ThisItem.'Nouveautés traitées - Dons',0)) &
+                  " · Rétrospectifs: " & Text(Coalesce(ThisItem.'Rétrospectifs traités - Recatalogages',0) + Coalesce(ThisItem.'Rétrospectifs traités - Corrections ou modifications',0) + Coalesce(ThisItem.'Rétrospectifs traités - Exemplarisations',0) + Coalesce(ThisItem.'Rétrospectifs - Numériques - Recatalogages',0) + Coalesce(ThisItem.'Rétrospectifs - Numériques - Corrections ou modifications',0)) &
+                  " · Autorité: " & Text(Coalesce(ThisItem.'Notices d''autorité crées ou modifiées',0))
+                Color: =ColorValue("#242424")
+                Size: =11
