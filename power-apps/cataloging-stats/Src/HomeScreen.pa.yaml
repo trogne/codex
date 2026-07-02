@@ -1,0 +1,133 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  HomeScreen:
+    Properties:
+      OnVisible: =Refresh(Catalogage)
+    Children:
+      - HeaderContainer:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Height: =92
+            Width: =Parent.Width
+          Children:
+            - AppTitleLabel:
+                Control: Label@2.5.1
+                Properties:
+                  FontWeight: =FontWeight.Semibold
+                  Height: =36
+                  Size: =22
+                  Text: =varAppTitle
+                  Width: =760
+                  X: =32
+                  Y: =18
+            - AppSubtitleLabel:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(255,255,255,0.85)
+                  Height: =24
+                  Size: =12
+                  Text: ="Saisie connectée à la liste SharePoint Catalogage"
+                  Width: =760
+                  X: =32
+                  Y: =54
+            - RefreshButton:
+                Control: Button@0.0.45
+                Properties:
+                  Height: =44
+                  OnSelect: =Refresh(Catalogage); Notify("Données actualisées", NotificationType.Success)
+                  Text: ="Actualiser"
+                  Width: =140
+                  X: =Parent.Width - 172
+                  Y: =24
+      - KpiGallery:
+          Control: Gallery@2.15.0
+          Variant: Horizontal
+          Properties:
+            Height: =120
+            Items: |-
+              =Table(
+                {Label:"Total nouveautés", Value: Sum(Catalogage, Coalesce('Nouveautés traitées - Exemplaires physique',0) + Coalesce('Nouveautés traitées - Documents numériques',0) + Coalesce('Nouveautés traitées - Dons',0))},
+                {Label:"Rétrospectifs physiques", Value: Sum(Catalogage, Coalesce('Rétrospectifs traités - Recatalogages',0) + Coalesce('Rétrospectifs traités - Corrections ou modifications',0) + Coalesce('Rétrospectifs traités - Exemplarisations',0))},
+                {Label:"Rétrospectifs numériques", Value: Sum(Catalogage, Coalesce('Rétrospectifs - Numériques - Recatalogages',0) + Coalesce('Rétrospectifs - Numériques - Corrections ou modifications',0))},
+                {Label:"Notices d'autorité", Value: Sum(Catalogage, Coalesce('Notices d''autorité crées ou modifiées',0))}
+              )
+            TemplateSize: =(Self.Width - 36) / 4
+            Width: =Parent.Width - 48
+            X: =24
+            Y: =112
+          Children:
+            - KpiCard:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  BorderColor: =ColorValue("#E4D7E7")
+                  BorderThickness: =1
+                  Height: =104
+                  RadiusBottomLeft: =16
+                  RadiusBottomRight: =16
+                  RadiusTopLeft: =16
+                  RadiusTopRight: =16
+                  Width: =Parent.TemplateWidth - 12
+                Children:
+                  - KpiLabel:
+                      Control: Label@2.5.1
+                      Properties:
+                        Color: =ColorValue("#616161")
+                        Height: =24
+                        Size: =12
+                        Text: =ThisItem.Label
+                        Width: =Parent.Width - 36
+                        X: =18
+                        Y: =16
+                  - KpiValue:
+                      Control: Label@2.5.1
+                      Properties:
+                        FontWeight: =FontWeight.Bold
+                        Height: =42
+                        Size: =28
+                        Text: =Text(ThisItem.Value, "[$-fr-FR]#,##0")
+                        Width: =Parent.Width - 36
+                        X: =18
+                        Y: =42
+      - RecentItemsGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Height: =Parent.Height - 284
+            Items: =SortByColumns(Catalogage, "Date", SortOrder.Descending)
+            TemplateSize: =96
+            Width: =(Parent.Width * 0.42) - 36
+            X: =(Parent.Width * 0.58) + 12
+            Y: =252
+          Children:
+            - RecentDate:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =ColorValue("#242424")
+                  FontWeight: =FontWeight.Semibold
+                  Height: =24
+                  Text: =Text(ThisItem.Date, "[$-fr-FR]dddd d mmmm yyyy")
+                  Width: =Parent.TemplateWidth - 32
+                  X: =16
+                  Y: =10
+            - RecentTotals:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =ColorValue("#242424")
+                  Height: =30
+                  Size: =11
+                  Text: |-
+                    ="Nouveautés: " & Text(Coalesce(ThisItem.'Nouveautés - Exemplaires physiques',0) + Coalesce(ThisItem.'Nouveautés - Documents numériques',0) + Coalesce(ThisItem.'Nouveautés - Dons',0)) &
+                    " · Rétrospectifs: " & Text(Coalesce(ThisItem.'Rétrospectifs - Recatalogages',0) + Coalesce(ThisItem.'Rétrospectifs - Numériques - Corrections ou modifications',0) + Coalesce(ThisItem.'Rétrospectifs - Physiques - Exemplarisations',0) + Coalesce(ThisItem.'Rétrospectifs - Numériques - Recatalogages',0) + Coalesce(ThisItem.'Rétrospectifs - Numériques - Corrections ou modifications',0)) &
+                    " · Autorité: " & Text(Coalesce(ThisItem.'Notices d''autorité crées ou modifiées',0))
+                  Width: =Parent.TemplateWidth - 32
+                  X: =16
+                  Y: =42
