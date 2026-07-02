@@ -1,0 +1,10 @@
+App:
+  Properties:
+    StartScreen: =HomeScreen
+    OnStart: |-
+      =Set(varAppTitle, "Suivi quotidien du traitement documentaire");
+      Set(varPrimaryColor, ColorValue("#742774"));
+      Set(varAccentColor, ColorValue("#0F6CBD"));
+      Refresh(CatalogageStats)
+    ConfirmExit: =false
+    Theme: =PowerAppsTheme
