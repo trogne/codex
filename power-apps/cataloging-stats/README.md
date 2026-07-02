@@ -8,7 +8,7 @@ This folder contains source-controlled Microsoft Power Apps canvas-app source fo
 - `Connections/SharePoint.json`: the SharePoint connector/data-source mapping that lists the SharePoint internal field names from the schema.
 - `Src/App.fx.yaml`: app-level Power Fx formulas and theme settings.
 - `Src/Screens.yaml`: screen index.
-- `Src/HomeScreen.fx.yaml`: a single-screen canvas app with:
+- `Src/Screens/HomeScreen.fx.yaml`: a single-screen canvas app with:
   - KPI cards for nouveautés, rétrospectifs physiques, rétrospectifs numériques, and authority notices.
   - An edit form bound to the SharePoint list data source.
   - A gallery for recent SharePoint list rows.
@@ -21,5 +21,15 @@ This folder contains source-controlled Microsoft Power Apps canvas-app source fo
 3. Add a SharePoint data connection and select the target list.
 4. Rename the data source to `CatalogageStats` or update the formulas in this source to match your list/data-source name.
 5. Recreate/import the screen and formulas from the YAML files in `Src/` using your Power Platform source-control workflow.
+
+## Packaging check
+
+From this folder, validate the source with the Power Platform CLI:
+
+```powershell
+pac canvas pack --sources . --msapp SuiviCatalogage.msapp
+```
+
+If `pac` is not installed, install the Microsoft Power Platform CLI first, then rerun the command. In this container, the command was attempted but failed because `pac` is not available on `PATH`.
 
 > Note: this repository does not include Microsoft `pac` generated binary `.msapp` output. These files are source artifacts intended for a real Microsoft Power Apps canvas app, not an HTML mockup.

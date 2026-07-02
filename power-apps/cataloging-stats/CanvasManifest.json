@@ -9,7 +9,7 @@
   "defaultScreen": "HomeScreen",
   "dataSources": [
     {
-      "name": "Catalogage",
+      "name": "CatalogageStats",
       "type": "SharePoint",
       "connectionReference": "shared_sharepointonline",
       "tableName": "CatalogageStats"
