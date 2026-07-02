@@ -1,0 +1,18 @@
+{
+  "format": "powerapps-canvas-source",
+  "appName": "Suivi catalogage",
+  "description": "Canvas app for daily cataloging statistics backed by the supplied SharePoint list schema.",
+  "authoringVersion": "3.25062.0",
+  "appType": "Canvas",
+  "layout": "Tablet",
+  "orientation": "Landscape",
+  "defaultScreen": "HomeScreen",
+  "dataSources": [
+    {
+      "name": "CatalogageStats",
+      "type": "SharePoint",
+      "connectionReference": "shared_sharepointonline",
+      "tableName": "CatalogageStats"
+    }
+  ]
+}
