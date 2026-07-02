@@ -1,0 +1,26 @@
+{
+  "connectionReferences": {
+    "shared_sharepointonline": {
+      "displayName": "SharePoint Online",
+      "connectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+      "dataSources": {
+        "CatalogageStats": {
+          "tableName": "CatalogageStats",
+          "entityName": "CatalogageStats",
+          "fields": [
+            { "displayName": "Date", "internalName": "Date", "type": "DateTime" },
+            { "displayName": "Nouveautés traitées - Exemplaires physique", "internalName": "Nouveaut_x00e9_strait_x00e9_es_x", "type": "Number" },
+            { "displayName": "Nouveautés traitées - Documents numériques", "internalName": "Nouveaut_x00e9_strait_x00e9_es_x0", "type": "Number" },
+            { "displayName": "Nouveautés traitées - Dons", "internalName": "Nouveaut_x00e9_strait_x00e9_es_x1", "type": "Number" },
+            { "displayName": "Rétrospectifs traités - Recatalogages", "internalName": "R_x00e9_trospectifstrait_x00e9_s", "type": "Number" },
+            { "displayName": "Rétrospectifs traités - Corrections ou modifications", "internalName": "R_x00e9_trospectifstrait_x00e9_s0", "type": "Number" },
+            { "displayName": "Rétrospectifs traités - Exemplarisations", "internalName": "R_x00e9_trospectifstrait_x00e9_s1", "type": "Number" },
+            { "displayName": "Rétrospectifs - Numériques - Recatalogages", "internalName": "R_x00e9_trospectifs_x002d_Num_x0", "type": "Number" },
+            { "displayName": "Rétrospectifs - Numériques - Corrections ou modifications", "internalName": "R_x00e9_trospectifs_x002d_Num_x00", "type": "Number" },
+            { "displayName": "Notices d'autorité crées ou modifiées", "internalName": "Noticesdautorit_x00e9_cr_x00e9_e", "type": "Number" }
+          ]
+        }
+      }
+    }
+  }
+}
