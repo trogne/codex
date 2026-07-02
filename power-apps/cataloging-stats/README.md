@@ -32,16 +32,16 @@ Binary `.msapp` files are not committed because this PR flow rejects binary file
 ./scripts/build-msapp.sh
 ```
 
-The script uses `pac canvas pack` when the Power Platform CLI is installed. If `pac` is unavailable, it creates a local `.msapp` zip archive from the source files so you still have a local artifact to inspect.
+The script uses `pac canvas pack --layout SourceCode` when the Power Platform CLI is installed. If `pac` is unavailable, it creates a local `.msapp` zip archive from the source files so you still have a local artifact to inspect.
 
 ## Packaging check
 
 From this folder, validate the source with the Power Platform CLI:
 
 ```powershell
-pac canvas pack --sources . --msapp SuiviCatalogage.msapp
+pac canvas pack --sources . --msapp SuiviCatalogage.msapp --layout SourceCode
 ```
 
 If `pac` is not installed, install the Microsoft Power Platform CLI first, then rerun the command. In this container, the command was attempted but failed because `pac` is not available on `PATH`.
 
-> Note: `dist/SuiviCatalogage.msapp` is intentionally not committed because this PR flow rejects binary files. Generate it locally with `scripts/build-msapp.sh`. The preferred validation path remains `pac canvas pack`; in this container the Power Platform CLI is unavailable, so PAC validation could not be completed here.
+> Note: `dist/SuiviCatalogage.msapp` is intentionally not committed because this PR flow rejects binary files. Generate it locally with `scripts/build-msapp.sh`. The preferred validation path remains `pac canvas pack --layout SourceCode`; in this container the Power Platform CLI is unavailable, so PAC validation could not be completed here.
