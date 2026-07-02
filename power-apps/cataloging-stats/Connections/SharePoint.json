@@ -5,8 +5,8 @@
       "connectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
       "dataSources": {
         "CatalogageStats": {
-          "tableName": "CatalogageStats",
-          "entityName": "CatalogageStats",
+          "tableName": "Catalogage",
+          "entityName": "Catalogage",
           "fields": [
             { "displayName": "Titre", "internalName": "Title", "type": "Text" },
             { "displayName": "Date", "internalName": "Date", "type": "DateTime" },
