@@ -1,7 +1,7 @@
 HomeScreen:
   Properties:
     Fill: =ColorValue("#F7F2F8")
-    OnVisible: =Refresh(CatalogageStats)
+    OnVisible: =Refresh(Catalogage)
   Controls:
     - HeaderContainer:
         Control: GroupContainer
@@ -31,7 +31,7 @@ HomeScreen:
                 Y: =54
                 Width: =760
                 Height: =24
-                Text: ="Saisie connectée à la liste SharePoint CatalogageStats"
+                Text: ="Saisie connectée à la liste SharePoint Catalogage"
                 Color: =RGBA(255,255,255,0.85)
                 Size: =12
           - RefreshButton:
@@ -44,7 +44,7 @@ HomeScreen:
                 Text: ="Actualiser"
                 Fill: =Color.White
                 Color: =varPrimaryColor
-                OnSelect: =Refresh(CatalogageStats); Notify("Données actualisées", NotificationType.Success)
+                OnSelect: =Refresh(Catalogage); Notify("Données actualisées", NotificationType.Success)
 
     - KpiGallery:
         Control: Gallery
@@ -57,10 +57,10 @@ HomeScreen:
           TemplateSize: =(Self.Width - 36) / 4
           Items: |-
             =Table(
-              {Label:"Total nouveautés", Value: Sum(CatalogageStats, Coalesce('Nouveautés traitées - Exemplaires physique',0) + Coalesce('Nouveautés traitées - Documents numériques',0) + Coalesce('Nouveautés traitées - Dons',0))},
-              {Label:"Rétrospectifs physiques", Value: Sum(CatalogageStats, Coalesce('Rétrospectifs traités - Recatalogages',0) + Coalesce('Rétrospectifs traités - Corrections ou modifications',0) + Coalesce('Rétrospectifs traités - Exemplarisations',0))},
-              {Label:"Rétrospectifs numériques", Value: Sum(CatalogageStats, Coalesce('Rétrospectifs - Numériques - Recatalogages',0) + Coalesce('Rétrospectifs - Numériques - Corrections ou modifications',0))},
-              {Label:"Notices d'autorité", Value: Sum(CatalogageStats, Coalesce('Notices d''autorité crées ou modifiées',0))}
+              {Label:"Total nouveautés", Value: Sum(Catalogage, Coalesce('Nouveautés traitées - Exemplaires physique',0) + Coalesce('Nouveautés traitées - Documents numériques',0) + Coalesce('Nouveautés traitées - Dons',0))},
+              {Label:"Rétrospectifs physiques", Value: Sum(Catalogage, Coalesce('Rétrospectifs traités - Recatalogages',0) + Coalesce('Rétrospectifs traités - Corrections ou modifications',0) + Coalesce('Rétrospectifs traités - Exemplarisations',0))},
+              {Label:"Rétrospectifs numériques", Value: Sum(Catalogage, Coalesce('Rétrospectifs - Numériques - Recatalogages',0) + Coalesce('Rétrospectifs - Numériques - Corrections ou modifications',0))},
+              {Label:"Notices d'autorité", Value: Sum(Catalogage, Coalesce('Notices d''autorité crées ou modifiées',0))}
             )
         Children:
           - KpiCard:
@@ -109,13 +109,13 @@ HomeScreen:
           Y: =252
           Width: =(Parent.Width * 0.58) - 36
           Height: =Parent.Height - 284
-          DataSource: =CatalogageStats
+          DataSource: =Catalogage
           DefaultMode: =FormMode.New
           NumberOfColumns: =2
           OnSuccess: |-
             =Notify("Ligne SharePoint enregistrée", NotificationType.Success);
             NewForm(EntryForm);
-            Refresh(CatalogageStats)
+            Refresh(Catalogage)
           OnFailure: =Notify("Impossible d'enregistrer la ligne", NotificationType.Error)
         Fields:
           - Date
@@ -162,7 +162,7 @@ HomeScreen:
           Width: =(Parent.Width * 0.42) - 36
           Height: =Parent.Height - 284
           Fill: =Color.White
-          Items: =SortByColumns(CatalogageStats, "Date", SortOrder.Descending)
+          Items: =SortByColumns(Catalogage, "Date", SortOrder.Descending)
           TemplateSize: =96
         Children:
           - RecentDate:

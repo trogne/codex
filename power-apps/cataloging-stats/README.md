@@ -20,7 +20,7 @@ This folder contains source-controlled Microsoft Power Apps canvas-app source fo
 1. Create or identify the target SharePoint list with the fields from the supplied schema.
 2. In Power Apps Studio, create a new tablet canvas app.
 3. Add a SharePoint data connection and select the target list.
-4. Rename the data source to `CatalogageStats` or update the formulas in this source to match your list/data-source name.
+4. Rename the data source to `Catalogage` or update the formulas in this source to match your list/data-source name.
 5. Recreate/import the screen and formulas from the YAML files in `Src/` using your Power Platform source-control workflow.
 
 

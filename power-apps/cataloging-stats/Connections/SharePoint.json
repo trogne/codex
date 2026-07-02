@@ -4,9 +4,9 @@
       "displayName": "SharePoint Online",
       "connectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
       "dataSources": {
-        "CatalogageStats": {
-          "tableName": "CatalogageStats",
-          "entityName": "CatalogageStats",
+        "Catalogage": {
+          "tableName": "Catalogage",
+          "entityName": "Catalogage",
           "fields": [
             { "displayName": "Date", "internalName": "Date", "type": "DateTime" },
             { "displayName": "Nouveautés traitées - Exemplaires physique", "internalName": "Nouveaut_x00e9_strait_x00e9_es_x", "type": "Number" },

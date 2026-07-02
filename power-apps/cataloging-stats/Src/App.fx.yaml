@@ -5,6 +5,6 @@ App:
       =Set(varAppTitle, "Suivi quotidien du traitement documentaire");
       Set(varPrimaryColor, ColorValue("#742774"));
       Set(varAccentColor, ColorValue("#0F6CBD"));
-      Refresh(CatalogageStats)
+      Refresh(Catalogage)
     ConfirmExit: =false
     Theme: =PowerAppsTheme

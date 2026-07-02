@@ -3,7 +3,7 @@ set -euo pipefail
 
 APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUTPUT_DIR="$APP_DIR/dist"
-OUTPUT_FILE="$OUTPUT_DIR/SuiviCatalogage.msapp"
+OUTPUT_FILE="$OUTPUT_DIR/Catalogage.msapp"
 
 mkdir -p "$OUTPUT_DIR"
 rm -f "$OUTPUT_FILE"
