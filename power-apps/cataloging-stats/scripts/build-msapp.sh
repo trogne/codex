@@ -11,7 +11,7 @@ rm -f "$OUTPUT_FILE"
 if command -v pac >/dev/null 2>&1; then
   (
     cd "$APP_DIR"
-    pac canvas pack --sources . --msapp "$OUTPUT_FILE"
+    pac canvas pack --sources . --msapp "$OUTPUT_FILE" --layout SourceCode
   )
 else
   echo "pac was not found on PATH; creating a local .msapp zip archive from source files." >&2

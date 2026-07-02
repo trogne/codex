@@ -1,4 +1,5 @@
 {
+  "FormatVersion": "0.30",
   "format": "powerapps-canvas-source",
   "appName": "Suivi catalogage",
   "description": "Canvas app for daily cataloging statistics backed by the supplied SharePoint list schema.",
