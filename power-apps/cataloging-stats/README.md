@@ -1,4 +1,4 @@
-# Microsoft Power Apps canvas app: Suivi catalogage
+# Microsoft Power Apps canvas app: Catalogage
 
 This folder contains source-controlled Microsoft Power Apps canvas-app source for a SharePoint-list-backed app based on the provided `ListSchema`.
 
@@ -8,7 +8,7 @@ This folder contains source-controlled Microsoft Power Apps canvas-app source fo
 - `Connections/SharePoint.json`: the SharePoint connector/data-source mapping that lists the SharePoint internal field names from the schema.
 - `Src/App.fx.yaml`: app-level Power Fx formulas and theme settings.
 - `Src/Screens.yaml`: screen index.
-- `scripts/build-msapp.sh`: local helper to generate `dist/SuiviCatalogage.msapp` outside the PR because binary files are not supported by this review flow.
+- `scripts/build-msapp.sh`: local helper to generate `dist/Catalogage.msapp` outside the PR because binary files are not supported by this review flow.
 - `Src/Screens/HomeScreen.fx.yaml`: a single-screen canvas app with:
   - KPI cards for nouveautés, rétrospectifs physiques, rétrospectifs numériques, and authority notices.
   - An edit form bound to the SharePoint list data source.
@@ -39,9 +39,9 @@ The script uses `pac canvas pack --layout SourceCode` when the Power Platform CL
 From this folder, validate the source with the Power Platform CLI:
 
 ```powershell
-pac canvas pack --sources . --msapp SuiviCatalogage.msapp --layout SourceCode
+pac canvas pack --sources . --msapp Catalogage.msapp --layout SourceCode
 ```
 
 If `pac` is not installed, install the Microsoft Power Platform CLI first, then rerun the command. In this container, the command was attempted but failed because `pac` is not available on `PATH`.
 
-> Note: `dist/SuiviCatalogage.msapp` is intentionally not committed because this PR flow rejects binary files. Generate it locally with `scripts/build-msapp.sh`. The preferred validation path remains `pac canvas pack --layout SourceCode`; in this container the Power Platform CLI is unavailable, so PAC validation could not be completed here.
+> Note: `dist/Catalogage.msapp` is intentionally not committed because this PR flow rejects binary files. Generate it locally with `scripts/build-msapp.sh`. The preferred validation path remains `pac canvas pack --layout SourceCode`; in this container the Power Platform CLI is unavailable, so PAC validation could not be completed here.
