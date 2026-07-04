@@ -286,6 +286,8 @@
       .asteroids-canvas {
         width: 100%;
         min-height: 24rem;
+        touch-action: none;
+        user-select: none;
         border: 1px solid rgba(255, 230, 0, 0.38);
         border-radius: 1rem;
         background:
@@ -299,6 +301,31 @@
       .game-help {
         margin: 0;
         color: var(--muted);
+      }
+
+      .touch-controls {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.65rem;
+      }
+
+      .touch-button {
+        min-height: 3.3rem;
+        border: 1px solid rgba(255, 230, 0, 0.45);
+        border-radius: 1rem;
+        background: rgba(255, 230, 0, 0.13);
+        color: var(--ink);
+        font: inherit;
+        font-size: 1.15rem;
+        font-weight: 950;
+        touch-action: none;
+        user-select: none;
+      }
+
+      .touch-button:active,
+      .touch-button.is-pressed {
+        background: var(--yellow);
+        color: #151107;
       }
 
       footer {
@@ -444,7 +471,13 @@
               </div>
             </div>
             <canvas class="asteroids-canvas" id="asteroids-game" width="960" height="440" tabindex="0" aria-label="Asteroids-inspired arcade game"></canvas>
-            <p class="game-help">Controls: ←/→ rotate, ↑ thrust, Space fires. Tap or click the arena to restart after a wipeout.</p>
+            <div class="touch-controls" aria-label="Touch game controls">
+              <button class="touch-button" type="button" data-control="ArrowLeft" aria-label="Rotate left">↺</button>
+              <button class="touch-button" type="button" data-control="ArrowUp" aria-label="Thrust">↑</button>
+              <button class="touch-button" type="button" data-control="ArrowRight" aria-label="Rotate right">↻</button>
+              <button class="touch-button" type="button" data-control=" " aria-label="Fire">Fire</button>
+            </div>
+            <p class="game-help">Controls: ←/→ rotate, ↑ thrust, Space fires. On mobile, hold the touch buttons. Tap or click the arena to restart after a wipeout.</p>
           </div>
         </section>
 
@@ -633,7 +666,30 @@
         keys.add(event.key);
       });
       addEventListener("keyup", (event) => keys.delete(event.key));
-      canvas.addEventListener("pointerdown", () => { if (gameOver) resetGame(); canvas.focus(); });
+      document.querySelectorAll("[data-control]").forEach((button) => {
+        const control = button.dataset.control;
+        const release = (event) => {
+          event.preventDefault();
+          keys.delete(control);
+          button.classList.remove("is-pressed");
+          try { button.releasePointerCapture(event.pointerId); } catch (_error) {}
+        };
+        button.addEventListener("pointerdown", (event) => {
+          event.preventDefault();
+          button.setPointerCapture(event.pointerId);
+          keys.add(control);
+          button.classList.add("is-pressed");
+          canvas.focus();
+          if (gameOver) resetGame();
+        });
+        button.addEventListener("pointerup", release);
+        button.addEventListener("pointercancel", release);
+        button.addEventListener("lostpointercapture", () => {
+          keys.delete(control);
+          button.classList.remove("is-pressed");
+        });
+      });
+      canvas.addEventListener("pointerdown", (event) => { event.preventDefault(); if (gameOver) resetGame(); canvas.focus(); });
       resetGame();
       loop();
     </script>
