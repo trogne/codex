@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 735 470" role="img" aria-labelledby="title desc">
+  <title id="title">Silver Tree band photo</title>
+  <desc id="desc">A beach-poster recreation of the Silver Tree trio with bright yellow Silver Tree lettering.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0fb9e8"/>
+      <stop offset="0.55" stop-color="#70d8ef"/>
+      <stop offset="1" stop-color="#ffe2a0"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f0c77b"/>
+      <stop offset="0.55" stop-color="#f9e2a6"/>
+      <stop offset="1" stop-color="#d87936"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="8" dy="10" stdDeviation="0" flood-color="#17100b" flood-opacity="0.95"/>
+    </filter>
+  </defs>
+
+  <rect width="735" height="470" fill="url(#sky)"/>
+  <path d="M0 211 C120 182 223 194 330 205 C451 219 571 190 735 176 L735 470 L0 470 Z" fill="url(#sand)"/>
+  <path d="M0 194 C98 158 172 168 252 183 C354 203 433 197 534 168 C621 143 684 143 735 154" fill="none" stroke="#e7fbff" stroke-width="10" opacity="0.75"/>
+  <path d="M0 205 C106 171 183 181 260 196 C358 216 432 209 537 181 C627 156 688 156 735 167" fill="none" stroke="#048eaa" stroke-width="6" opacity="0.5"/>
+
+  <g opacity="0.95">
+    <path d="M0 41 C80 29 139 31 210 44 C298 60 384 52 458 30 C540 5 637 0 735 13" fill="none" stroke="#15212b" stroke-width="3"/>
+    <g fill="#17212b">
+      <circle cx="42" cy="39" r="5"/><circle cx="96" cy="33" r="5"/><circle cx="151" cy="35" r="5"/>
+      <circle cx="207" cy="44" r="5"/><circle cx="267" cy="51" r="5"/><circle cx="327" cy="50" r="5"/>
+      <circle cx="388" cy="43" r="5"/><circle cx="450" cy="32" r="5"/><circle cx="514" cy="14" r="5"/>
+      <circle cx="579" cy="5" r="5"/><circle cx="646" cy="4" r="5"/><circle cx="710" cy="10" r="5"/>
+    </g>
+  </g>
+
+  <g transform="translate(524 -8)">
+    <rect x="42" y="0" width="28" height="315" rx="12" fill="#714523"/>
+    <path d="M49 0 C26 83 29 174 14 265" stroke="#4d2d18" stroke-width="9" fill="none"/>
+    <g fill="#15793c">
+      <ellipse cx="3" cy="81" rx="42" ry="17" transform="rotate(-20 3 81)"/>
+      <ellipse cx="58" cy="66" rx="50" ry="19" transform="rotate(17 58 66)"/>
+      <ellipse cx="105" cy="88" rx="48" ry="18" transform="rotate(27 105 88)"/>
+      <ellipse cx="93" cy="134" rx="59" ry="20" transform="rotate(-12 93 134)"/>
+      <ellipse cx="21" cy="132" rx="56" ry="20" transform="rotate(11 21 132)"/>
+      <ellipse cx="129" cy="178" rx="55" ry="18" transform="rotate(13 129 178)"/>
+    </g>
+  </g>
+
+  <g transform="translate(119 98)">
+    <ellipse cx="76" cy="36" rx="36" ry="42" fill="#f0b282"/>
+    <path d="M44 24 C54 -6 103 -2 115 31 C95 18 72 18 44 24 Z" fill="#21150f"/>
+    <rect x="33" y="76" width="96" height="180" rx="34" fill="#101010"/>
+    <path d="M49 114 C72 148 89 151 112 116" stroke="#2b2b2b" stroke-width="13" fill="none"/>
+  </g>
+
+  <g transform="translate(294 48)">
+    <ellipse cx="82" cy="46" rx="40" ry="46" fill="#efb17f"/>
+    <path d="M43 28 C59 -5 104 -10 123 29 C96 16 68 19 43 28 Z" fill="#e9ecec"/>
+    <path d="M50 79 C71 98 96 99 115 80" stroke="#d9d9d9" stroke-width="10" fill="none"/>
+    <rect x="29" y="92" width="112" height="234" rx="30" fill="#201817"/>
+    <path d="M42 93 L72 326 M86 93 L116 326" stroke="#b2172a" stroke-width="30"/>
+    <path d="M31 140 H142 M37 194 H136 M43 248 H129" stroke="#151111" stroke-width="9" opacity="0.75"/>
+    <text x="86" y="154" text-anchor="middle" fill="#ffe600" font-family="Arial Black, Impact, sans-serif" font-size="22">KISS</text>
+  </g>
+
+  <g transform="translate(486 87)">
+    <ellipse cx="76" cy="43" rx="36" ry="42" fill="#eab082"/>
+    <path d="M38 26 C49 -6 101 -1 116 31 C114 76 89 76 66 51 C54 44 44 37 38 26 Z" fill="#1b1715"/>
+    <rect x="33" y="84" width="101" height="186" rx="36" fill="#101010"/>
+    <path d="M46 131 C71 154 95 153 122 130" stroke="#2a2a2a" stroke-width="12" fill="none"/>
+  </g>
+
+  <rect x="0" y="338" width="735" height="132" fill="rgba(0,0,0,0.18)"/>
+  <text x="38" y="429" fill="#ffe600" stroke="#17100b" stroke-width="5" paint-order="stroke" filter="url(#shadow)" font-family="Arial Black, Impact, sans-serif" font-size="78" font-weight="900" letter-spacing="-5">SILVER TREE</text>
+</svg>
