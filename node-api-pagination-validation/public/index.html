@@ -167,91 +167,19 @@
         box-shadow: 0 16px 44px rgba(255, 230, 0, 0.22);
       }
 
-      .poster {
-        min-height: 34rem;
+      .photo-card {
         border: 1px solid var(--line);
         border-radius: 2rem;
         overflow: hidden;
-        background:
-          linear-gradient(rgba(9, 17, 22, 0.05), rgba(9, 17, 22, 0.68)),
-          linear-gradient(120deg, #22c5e7 0 38%, #f4d68b 38% 58%, #101010 58%);
+        background: rgba(0, 0, 0, 0.35);
         box-shadow: 0 28px 90px rgba(0, 0, 0, 0.46);
         position: relative;
       }
 
-      .poster::before {
-        content: "";
-        position: absolute;
-        inset: 1.2rem;
-        border: 1px solid rgba(255, 255, 255, 0.28);
-        border-radius: 1.35rem;
-      }
-
-      .sun {
-        position: absolute;
-        top: 12%;
-        right: 28%;
-        width: 4.2rem;
-        height: 4.2rem;
-        border-radius: 50%;
-        background: var(--yellow);
-        box-shadow: 0 0 0 0.8rem rgba(255, 230, 0, 0.16), 0 0 70px rgba(255, 230, 0, 0.8);
-      }
-
-      .tree {
-        position: absolute;
-        right: 8%;
-        top: 0;
-        bottom: 0;
-        width: 38%;
-        background:
-          radial-gradient(ellipse at 30% 24%, #188342 0 9%, transparent 10%),
-          radial-gradient(ellipse at 58% 18%, #20924b 0 10%, transparent 11%),
-          radial-gradient(ellipse at 76% 34%, #17753b 0 10%, transparent 11%),
-          linear-gradient(90deg, transparent 42%, #6c452a 43% 51%, transparent 52%);
-        opacity: 0.92;
-      }
-
-      .band {
-        position: absolute;
-        left: 8%;
-        right: 8%;
-        bottom: 14%;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-
-      .member {
-        width: 30%;
-        min-height: 17rem;
-        border-radius: 999px 999px 1rem 1rem;
-        background: linear-gradient(#242424, #030303);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-      }
-
-      .member:nth-child(2) {
-        min-height: 23rem;
-        background: linear-gradient(90deg, #151515, #b01524 45% 55%, #151515);
-      }
-
-      .member:nth-child(3) {
-        min-height: 19rem;
-      }
-
-      .poster-title {
-        position: absolute;
-        left: 1.4rem;
-        right: 1.4rem;
-        bottom: 1.2rem;
-        color: var(--yellow);
-        font-size: clamp(2rem, 5vw, 4.7rem);
-        font-weight: 1000;
-        letter-spacing: -0.11em;
-        line-height: 0.8;
-        text-transform: uppercase;
-        text-shadow: 0.06em 0.06em 0 #111;
+      .photo-card img {
+        display: block;
+        width: 100%;
+        height: auto;
       }
 
       section {
@@ -345,10 +273,6 @@
           justify-content: flex-start;
         }
 
-        .poster {
-          min-height: 28rem;
-        }
-
         .grid {
           grid-template-columns: 1fr;
         }
@@ -389,16 +313,12 @@
             </div>
           </div>
 
-          <aside class="poster" aria-label="Stylized Silver Tree beach band poster">
-            <div class="sun"></div>
-            <div class="tree"></div>
-            <div class="band" aria-hidden="true">
-              <div class="member"></div>
-              <div class="member"></div>
-              <div class="member"></div>
-            </div>
-            <div class="poster-title">Silver Tree</div>
-          </aside>
+          <figure class="photo-card">
+            <img
+              src="/silver-tree-photo.svg"
+              alt="Silver Tree band photo on a beach with bold yellow Silver Tree lettering"
+            />
+          </figure>
         </section>
 
         <section id="band" aria-labelledby="band-title">
