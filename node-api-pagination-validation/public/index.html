@@ -233,27 +233,6 @@
         color: var(--muted);
       }
 
-      .image-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 1rem;
-      }
-
-      .image-card {
-        margin: 0;
-        border: 1px solid var(--line);
-        border-radius: 1.3rem;
-        overflow: hidden;
-        background: var(--panel);
-        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
-      }
-
-      .image-card img {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-
       .shows {
         list-style: none;
         padding: 0;
@@ -294,8 +273,7 @@
           justify-content: flex-start;
         }
 
-        .grid,
-        .image-grid {
+        .grid {
           grid-template-columns: 1fr;
         }
 
@@ -316,7 +294,6 @@
           <a href="#band">Band</a>
           <a href="#music">Stories</a>
           <a href="#shows">Places</a>
-          <a href="#vibes">Vibes</a>
           <a href="#contact">Contact</a>
         </nav>
       </header>
@@ -402,19 +379,6 @@
               <a class="button" href="#contact">Book</a>
             </li>
           </ul>
-        </section>
-
-        <section id="vibes" aria-labelledby="vibes-title">
-          <h2 class="section-title" id="vibes-title">Cool Stuff</h2>
-          <div class="image-grid">
-            <figure class="image-card"><img src="/img-tennis.svg" alt="Neon tennis ball and racket illustration" /></figure>
-            <figure class="image-card"><img src="/img-wings.svg" alt="Spicy chicken wings illustration" /></figure>
-            <figure class="image-card"><img src="/img-dart.svg" alt="Dart hitting a target illustration" /></figure>
-            <figure class="image-card"><img src="/img-rock.svg" alt="Rock boulder illustration" /></figure>
-            <figure class="image-card"><img src="/img-kite.svg" alt="Kite surfing illustration" /></figure>
-            <figure class="image-card"><img src="/img-ski.svg" alt="Downhill skiing illustration" /></figure>
-            <figure class="image-card"><img src="/img-hot-tub.svg" alt="Steaming hot tub illustration" /></figure>
-          </div>
         </section>
 
         <section id="contact" aria-labelledby="contact-title">
