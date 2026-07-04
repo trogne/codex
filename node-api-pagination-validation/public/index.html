@@ -6,7 +6,7 @@
     <title>Silver Tree | Official Website</title>
     <meta
       name="description"
-      content="Official landing page for Silver Tree — beach-side rock energy, bright hooks, and upcoming shows."
+      content="Official landing page for Silver Tree — Trois-Rivières rock, kite-surf stories, Pabst, Fireball, and chalet-built songs."
     />
     <style>
       :root {
@@ -286,6 +286,20 @@
         text-transform: uppercase;
       }
 
+      .role {
+        display: inline-block;
+        margin-bottom: 0.85rem;
+        color: var(--teal);
+        font-size: 0.78rem;
+        font-weight: 950;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .member-card {
+        min-height: 14rem;
+      }
+
       .card p,
       .card li {
         color: var(--muted);
@@ -353,8 +367,9 @@
           <span>Silver Tree</span>
         </a>
         <nav aria-label="Primary navigation">
-          <a href="#music">Music</a>
-          <a href="#shows">Shows</a>
+          <a href="#band">Band</a>
+          <a href="#music">Stories</a>
+          <a href="#shows">Places</a>
           <a href="#contact">Contact</a>
         </nav>
       </header>
@@ -362,15 +377,15 @@
       <main id="top">
         <section class="hero" aria-labelledby="hero-title">
           <div>
-            <div class="eyebrow">New wave beach rock</div>
+            <div class="eyebrow">Trois-Rivières chalet rock</div>
             <h1 id="hero-title">Silver Tree</h1>
             <p>
-              A sunburned trio with loud guitars, chrome-bright choruses, and the kind of
-              tropical grit that turns every stage into a shoreline afterparty.
+              Thierry Senecal, Carl Salvail, and Sylvain Marcoux turn practice nights at
+              Rock Café Le Stage into loud, weird, Pabst-and-Fireball-fuelled rock stories.
             </p>
             <div class="cta-row">
-              <a class="button primary" href="#shows">See tour dates</a>
-              <a class="button" href="#music">Hear the sound</a>
+              <a class="button primary" href="#band">Meet the band</a>
+              <a class="button" href="#music">Read the legends</a>
             </div>
           </div>
 
@@ -386,41 +401,62 @@
           </aside>
         </section>
 
+        <section id="band" aria-labelledby="band-title">
+          <h2 class="section-title" id="band-title">The Trio</h2>
+          <div class="grid">
+            <article class="card member-card">
+              <span class="role">Vocals and guitars</span>
+              <h3>Thierry Senecal</h3>
+              <p>The voice, the strings, and the only Silver Tree member honest enough to admit kite surfing is terrifying.</p>
+            </article>
+            <article class="card member-card">
+              <span class="role">Drums, second vocalist, sound effects</span>
+              <h3>Carl Salvail</h3>
+              <p>Hits hard, sings back, triggers the weird noises, and still finds time to chase wind on a kite board.</p>
+            </article>
+            <article class="card member-card">
+              <span class="role">Bass and “attitude”</span>
+              <h3>Sylvain Marcoux</h3>
+              <p>The low-end grin of the band: bass lines, attitude, and another kite surfer making Thierry nervous.</p>
+            </article>
+          </div>
+        </section>
+
         <section id="music" aria-labelledby="music-title">
-          <h2 class="section-title" id="music-title">The Sound</h2>
+          <h2 class="section-title" id="music-title">Local Legends</h2>
           <div class="grid">
             <article class="card">
-              <h3>Salt-air hooks</h3>
-              <p>Melodies built for open windows, late sunsets, and choruses shouted with friends.</p>
+              <h3>The chalet</h3>
+              <p>Their amazing practice “chalet” lives at Rock Café Le Stage, where riffs get louder and stories get stranger.</p>
             </article>
             <article class="card">
-              <h3>Silver distortion</h3>
-              <p>Big riffs and shimmering textures collide with punchy drums and bass-forward grooves.</p>
+              <h3>Kites and fear</h3>
+              <p>Carl and Sylvain kite surf; Thierry wisely prefers guitars, solid ground, and watching from a safe distance.</p>
             </article>
             <article class="card">
-              <h3>Tree-line energy</h3>
-              <p>Rooted, raw, and ready for festival fields, club rooms, and beach bars alike.</p>
+              <h3>Band fuel</h3>
+              <p>Silver Tree runs on Pabst, Fireball, friendship, and the next song that probably started as a joke.</p>
             </article>
           </div>
         </section>
 
         <section id="shows" aria-labelledby="shows-title">
-          <h2 class="section-title" id="shows-title">Upcoming Shows</h2>
+          <h2 class="section-title" id="shows-title">Places They Have Shaken</h2>
           <ul class="shows">
             <li>
-              <span class="date">Jul 18</span>
-              <span>Neon Palms Beach Club — Miami, FL</span>
-              <a class="button" href="#contact">Tickets</a>
+              <span class="date">Zenob</span>
+              <span>Trois-Rivières, Québec — intimate room, big Silver Tree energy.</span>
+              <a class="button" href="#contact">Book</a>
             </li>
             <li>
-              <span class="date">Aug 09</span>
-              <span>Boardwalk Summer Stage — Asbury Park, NJ</span>
-              <a class="button" href="#contact">Tickets</a>
+              <span class="date">Le Stage</span>
+              <span>Rock Café Le Stage, Trois-Rivières, Québec — show venue and legendary practice chalet.</span>
+              <a class="button" href="#contact">Book</a>
             </li>
             <li>
-              <span class="date">Sep 12</span>
-              <span>Golden Hour Festival — San Diego, CA</span>
-              <a class="button" href="#contact">Tickets</a>
+              <span class="date">Cabarete</span>
+              <span>A strange bar in Cabarete — the exact kind of place that deserves Silver Tree.</span>
+              <a class="button" href="#contact">Book</a>
             </li>
           </ul>
         </section>
@@ -429,7 +465,7 @@
           <div class="card">
             <h2 class="section-title" id="contact-title">Book Silver Tree</h2>
             <p>
-              For booking, press, and sync inquiries, email
+              For chalet sessions, strange-bar bookings, and any room that serves Pabst or Fireball, email
               <a href="mailto:hello@silvertree.band">hello@silvertree.band</a>.
             </p>
           </div>
