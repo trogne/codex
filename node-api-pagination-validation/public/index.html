@@ -12,13 +12,16 @@
       :root {
         color-scheme: dark;
         --ink: #fff8d8;
-        --muted: #d4d1c3;
+        --muted: #d9d3bd;
         --yellow: #ffe600;
         --orange: #ff7b1a;
+        --hot: #ff2f8b;
+        --violet: #8a5cff;
         --teal: #0bb8d4;
-        --night: #091116;
-        --panel: rgba(7, 13, 17, 0.74);
+        --night: #07080f;
+        --panel: rgba(7, 9, 16, 0.72);
         --line: rgba(255, 255, 255, 0.16);
+        --glow: 0 0 48px rgba(255, 47, 139, 0.28), 0 0 86px rgba(11, 184, 212, 0.18);
       }
 
       * {
@@ -34,9 +37,10 @@
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         background:
-          radial-gradient(circle at 10% 8%, rgba(11, 184, 212, 0.36), transparent 34rem),
-          radial-gradient(circle at 92% 10%, rgba(255, 230, 0, 0.2), transparent 22rem),
-          linear-gradient(145deg, #06202a 0%, #081115 44%, #0a0705 100%);
+          radial-gradient(circle at 14% 12%, rgba(255, 47, 139, 0.28), transparent 28rem),
+          radial-gradient(circle at 86% 7%, rgba(255, 230, 0, 0.22), transparent 24rem),
+          radial-gradient(circle at 70% 62%, rgba(11, 184, 212, 0.2), transparent 28rem),
+          linear-gradient(145deg, #071018 0%, #080610 48%, #160905 100%);
         color: var(--ink);
         min-height: 100vh;
       }
@@ -57,9 +61,26 @@
         pointer-events: none;
         background-image:
           linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-        background-size: 64px 64px;
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          radial-gradient(circle at 50% 0%, rgba(255,255,255,.14), transparent 31rem);
+        background-size: 64px 64px, 64px 64px, auto;
         mask-image: linear-gradient(to bottom, #000 0%, transparent 75%);
+      }
+
+      .page-shell::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(115deg, transparent 0 42%, rgba(255, 255, 255, 0.09) 48%, transparent 54% 100%);
+        mix-blend-mode: overlay;
+        opacity: 0.42;
+        animation: shimmer 9s linear infinite;
+      }
+
+      @keyframes shimmer {
+        from { transform: translateX(-28%); }
+        to { transform: translateX(28%); }
       }
 
       header,
@@ -94,9 +115,9 @@
         height: 2.8rem;
         border: 2px solid rgba(255, 255, 255, 0.72);
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--yellow), var(--orange));
+        background: linear-gradient(135deg, var(--yellow), var(--hot) 52%, var(--teal));
         color: #161103;
-        box-shadow: 0 0 34px rgba(255, 230, 0, 0.35);
+        box-shadow: var(--glow);
       }
 
       nav {
@@ -111,7 +132,7 @@
         border: 1px solid var(--line);
         border-radius: 999px;
         padding: 0.65rem 1rem;
-        background: rgba(255, 255, 255, 0.07);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035));
         text-decoration: none;
         color: var(--ink);
         font-weight: 800;
@@ -119,8 +140,8 @@
 
       nav a:hover,
       .button:hover {
-        background: rgba(255, 230, 0, 0.18);
-        border-color: rgba(255, 230, 0, 0.8);
+        background: rgba(255, 47, 139, 0.2);
+        border-color: rgba(255, 47, 139, 0.86);
       }
 
       .hero {
@@ -144,7 +165,12 @@
         line-height: 0.78;
         letter-spacing: -0.11em;
         text-transform: uppercase;
-        text-shadow: 0.06em 0.06em 0 #101010;
+        background: linear-gradient(90deg, var(--ink), var(--yellow) 35%, var(--hot) 66%, var(--teal));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0.045em 0.045em 0 rgba(0, 0, 0, 0.72);
+        filter: drop-shadow(0 0 38px rgba(255, 47, 139, 0.28));
       }
 
       .hero p {
@@ -161,19 +187,47 @@
       }
 
       .button.primary {
-        background: var(--yellow);
+        background: linear-gradient(135deg, var(--yellow), var(--orange) 48%, var(--hot));
         color: #151107;
-        border-color: var(--yellow);
-        box-shadow: 0 16px 44px rgba(255, 230, 0, 0.22);
+        border-color: rgba(255, 230, 0, 0.9);
+        box-shadow: 0 16px 44px rgba(255, 47, 139, 0.28);
+      }
+
+      .button {
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .button:hover,
+      nav a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28), var(--glow);
       }
 
       .photo-card {
-        border: 1px solid var(--line);
+        border: 1px solid rgba(255, 255, 255, 0.22);
         border-radius: 2rem;
         overflow: hidden;
         background: rgba(0, 0, 0, 0.35);
-        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.46);
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.46), var(--glow);
         position: relative;
+        transform: rotate(1.5deg);
+      }
+
+      .photo-card::after {
+        content: "live • loud • louche";
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        border-radius: 999px;
+        padding: 0.45rem 0.75rem;
+        background: rgba(7, 9, 16, 0.68);
+        color: var(--yellow);
+        font-size: 0.78rem;
+        font-weight: 950;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        backdrop-filter: blur(12px);
       }
 
       .photo-card img {
@@ -204,13 +258,43 @@
         border: 1px solid var(--line);
         border-radius: 1.3rem;
         padding: 1.3rem;
-        background: var(--panel);
-        backdrop-filter: blur(16px);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.105), var(--panel));
+        backdrop-filter: blur(18px);
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.22);
       }
 
       .card h3 {
         margin: 0 0 0.7rem;
         color: var(--yellow);
+        text-transform: uppercase;
+      }
+
+      .card:hover {
+        border-color: rgba(255, 47, 139, 0.5);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32), var(--glow);
+        transform: translateY(-3px);
+      }
+
+      .card {
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      }
+
+      .hero-kicker {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+      }
+
+      .hero-kicker span {
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 999px;
+        padding: 0.42rem 0.7rem;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
@@ -411,6 +495,11 @@
             <div class="cta-row">
               <a class="button primary" href="#band">Meet the band</a>
               <a class="button" href="#music">Read the legends</a>
+            </div>
+            <div class="hero-kicker" aria-label="Silver Tree vibe tags">
+              <span>Néon</span>
+              <span>Chalet rock</span>
+              <span>Kite-surf chaos</span>
             </div>
           </div>
 
