@@ -307,6 +307,27 @@
         color: var(--muted);
       }
 
+      .sound-board {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.85rem;
+        flex-wrap: wrap;
+        border: 1px solid rgba(11, 184, 212, 0.4);
+        border-radius: 1rem;
+        padding: 0.85rem;
+        background: rgba(11, 184, 212, 0.1);
+      }
+
+      .sound-board p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .sound-toggle {
+        cursor: pointer;
+      }
+
       .touch-controls {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -475,6 +496,10 @@
               </div>
             </div>
             <canvas class="asteroids-canvas" id="asteroids-game" width="960" height="440" tabindex="0" aria-label="Asteroids-inspired arcade game"></canvas>
+            <div class="sound-board" aria-live="polite">
+              <p><strong>Carl's sound effects:</strong> laser pews, drum-hit explosions, rocket whooshes, and weird space bloops.</p>
+              <button class="button sound-toggle" id="sound-toggle" type="button" aria-pressed="false">Enable Carl FX</button>
+            </div>
             <div class="touch-controls" aria-label="Touch game controls">
               <button class="touch-button" type="button" data-control="ArrowLeft" aria-label="Rotate left">↺</button>
               <button class="touch-button" type="button" data-control="ArrowUp" aria-label="Thrust">↑</button>
@@ -505,6 +530,7 @@
       const ctx = canvas.getContext("2d");
       const scoreEl = document.querySelector("#game-score");
       const livesEl = document.querySelector("#game-lives");
+      const soundToggle = document.querySelector("#sound-toggle");
       const keys = new Set();
       const wrap = (value, max) => (value + max) % max;
       let score = 0;
@@ -514,6 +540,65 @@
       let shots = [];
       let particles = [];
       let gameOver = false;
+      let audioContext;
+      let soundEnabled = false;
+      let lastThrustSound = 0;
+
+      function ensureAudio() {
+        audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
+        if (audioContext.state === "suspended") audioContext.resume();
+        return audioContext;
+      }
+
+      function setSoundEnabled(enabled) {
+        soundEnabled = enabled;
+        soundToggle.textContent = enabled ? "Carl FX On" : "Enable Carl FX";
+        soundToggle.setAttribute("aria-pressed", String(enabled));
+        soundToggle.classList.toggle("primary", enabled);
+      }
+
+      function playTone({ frequency = 440, type = "sine", duration = 0.12, volume = 0.08, slide = 1, delay = 0 }) {
+        if (!soundEnabled) return;
+        const audio = ensureAudio();
+        const now = audio.currentTime + delay;
+        const oscillator = audio.createOscillator();
+        const gain = audio.createGain();
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(frequency, now);
+        oscillator.frequency.exponentialRampToValueAtTime(Math.max(20, frequency * slide), now + duration);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(volume, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        oscillator.connect(gain).connect(audio.destination);
+        oscillator.start(now);
+        oscillator.stop(now + duration + 0.03);
+      }
+
+      const carlFx = {
+        fire() {
+          playTone({ frequency: 920, type: "square", duration: 0.09, volume: 0.045, slide: 1.8 });
+          playTone({ frequency: 310, type: "sawtooth", duration: 0.07, volume: 0.035, slide: 0.55 });
+        },
+        thrust() {
+          const now = performance.now();
+          if (now - lastThrustSound < 130) return;
+          lastThrustSound = now;
+          playTone({ frequency: 90 + Math.random() * 30, type: "sawtooth", duration: 0.11, volume: 0.035, slide: 0.75 });
+        },
+        asteroid(size) {
+          playTone({ frequency: 180 - size, type: "triangle", duration: 0.15, volume: 0.08, slide: 0.35 });
+          playTone({ frequency: 68, type: "square", duration: 0.06, volume: 0.06, slide: 0.8, delay: 0.03 });
+        },
+        crash() {
+          playTone({ frequency: 220, type: "sawtooth", duration: 0.28, volume: 0.09, slide: 0.18 });
+          playTone({ frequency: 55, type: "square", duration: 0.22, volume: 0.08, slide: 0.5, delay: 0.04 });
+        },
+        wave() {
+          [260, 390, 520, 780].forEach((frequency, index) => {
+            playTone({ frequency, type: "triangle", duration: 0.12, volume: 0.045, slide: 1.2, delay: index * 0.07 });
+          });
+        },
+      };
 
       function resetShip() {
         ship = { x: canvas.width / 2, y: canvas.height / 2, vx: 0, vy: 0, angle: -Math.PI / 2, cooldown: 0, safe: 90 };
@@ -559,12 +644,14 @@
           if (keys.has("ArrowLeft")) ship.angle -= 0.075;
           if (keys.has("ArrowRight")) ship.angle += 0.075;
           if (keys.has("ArrowUp")) {
+            carlFx.thrust();
             ship.vx += Math.cos(ship.angle) * 0.12;
             ship.vy += Math.sin(ship.angle) * 0.12;
             particles.push({ x: ship.x - Math.cos(ship.angle) * 14, y: ship.y - Math.sin(ship.angle) * 14, vx: -Math.cos(ship.angle), vy: -Math.sin(ship.angle), life: 18, color: "#ff7b1a" });
           }
           if (keys.has(" ") && ship.cooldown <= 0) {
             shots.push({ x: ship.x + Math.cos(ship.angle) * 18, y: ship.y + Math.sin(ship.angle) * 18, vx: Math.cos(ship.angle) * 7 + ship.vx, vy: Math.sin(ship.angle) * 7 + ship.vy, life: 58 });
+            carlFx.fire();
             ship.cooldown = 14;
           }
           ship.cooldown -= 1;
@@ -592,6 +679,7 @@
               rock.dead = true;
               score += Math.round(90 - rock.size);
               burst(rock.x, rock.y);
+              carlFx.asteroid(rock.size);
               if (rock.size > 24) {
                 asteroids.push(makeAsteroid(rock.size * 0.62, rock.x, rock.y), makeAsteroid(rock.size * 0.62, rock.x, rock.y));
               }
@@ -602,9 +690,13 @@
         if (!gameOver && ship.safe < 0 && asteroids.some((rock) => Math.hypot(ship.x - rock.x, ship.y - rock.y) < rock.size + 12)) {
           lives -= 1;
           burst(ship.x, ship.y, "#0bb8d4");
+          carlFx.crash();
           lives > 0 ? resetShip() : (gameOver = true);
         }
-        if (!asteroids.length) asteroids = Array.from({ length: 6 + Math.min(6, Math.floor(score / 400)) }, () => makeAsteroid());
+        if (!asteroids.length) {
+          asteroids = Array.from({ length: 6 + Math.min(6, Math.floor(score / 400)) }, () => makeAsteroid());
+          carlFx.wave();
+        }
         syncStats();
       }
 
@@ -664,6 +756,15 @@
         draw();
         requestAnimationFrame(loop);
       }
+
+      soundToggle.addEventListener("click", () => {
+        setSoundEnabled(!soundEnabled);
+        if (soundEnabled) {
+          ensureAudio();
+          carlFx.wave();
+          canvas.focus();
+        }
+      });
 
       addEventListener("keydown", (event) => {
         if (["ArrowLeft", "ArrowRight", "ArrowUp", " "].includes(event.key)) event.preventDefault();
